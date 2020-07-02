@@ -4,25 +4,15 @@ import com.montojo.carmanag.model.Car;
 import com.montojo.carmanag.model.DatabaseUtil;
 import com.montojo.carmanag.model.Owner;
 import com.montojo.carmanag.model.Services;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
-import javax.annotation.Resource;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
-
-//    @Resource(name = "jdbc/car_manag")
-//    private DataSource dataSource;
-
-    private SessionFactory sessionFactory;
 
     private DatabaseUtil databaseUtil;
 
@@ -30,17 +20,7 @@ public class DashboardServlet extends HttpServlet {
     public void init() throws ServletException {
         System.out.println("Init DashboardServlet");
         super.init();
-        sessionFactory = new Configuration()
-                .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Car.class)
-                .addAnnotatedClass(Owner.class)
-                .addAnnotatedClass(Services.class)
-                .buildSessionFactory();
-        try {
-            databaseUtil = new DatabaseUtil(sessionFactory);
-        } catch (Exception e) {
-            throw new ServletException(e);
-        }
+        databaseUtil = new DatabaseUtil();
     }
 
     @Override
@@ -54,25 +34,18 @@ public class DashboardServlet extends HttpServlet {
           checking if client is logged in, else forward again to log in
          */
         if (checkLog(req)) {
-            /*
-              retrieve cars from DB
-             */
+
             carsList = listCars();
-            /*
-              retrieve owners from DB
-             */
+
             ownersList = listOwners();
-            /*
-              retrieve services from DB
-             */
+
             servicesList = listServices();
 
-            String user= (String) req.getSession().getAttribute("userName");
+            String user = (String) req.getSession().getAttribute("userName");
             System.out.println(user);
-            Cookie cookieUser = new Cookie("userName",user);
+            Cookie cookieUser = new Cookie("userName", user);
             resp.addCookie(cookieUser);
 
-//            passing data to model, for jsp´s pages
             req.setAttribute("carslist", carsList);
             req.setAttribute("ownerslist", ownersList);
             req.setAttribute("serviceslist", servicesList);

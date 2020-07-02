@@ -2,8 +2,7 @@ package com.montojo.carmanag.model;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
-import javax.sql.DataSource;
+import org.hibernate.cfg.Configuration;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +13,16 @@ public class DatabaseUtil {
     private SessionFactory sessionFactory;
     private int counter;
 
-    public DatabaseUtil(SessionFactory sessionFactory) {
+    public DatabaseUtil() {
+
         counter += 1;
         System.out.println("This is Databaseutil number " + counter);
-        this.sessionFactory = sessionFactory;
+        sessionFactory = new Configuration()
+                .configure("hibernate.cfg.xml")
+                .addAnnotatedClass(Car.class)
+                .addAnnotatedClass(Owner.class)
+                .addAnnotatedClass(Services.class)
+                .buildSessionFactory();;
     }
 
     public List<Owner> getOwners() {
@@ -116,7 +121,7 @@ public class DatabaseUtil {
         return retrievedOwner;
     }
 
-    public void updateOwner(int id,String fullName,int idCardNumber, int phone, String email) {
+    public void updateOwner(int id, String fullName, int idCardNumber, int phone, String email) {
 
         Session session = sessionFactory.getCurrentSession();
 
@@ -124,16 +129,16 @@ public class DatabaseUtil {
 
         try {
 
-        session.beginTransaction();
+            session.beginTransaction();
 
-        Owner ownerToUpdate = session.get(Owner.class,id);
+            Owner ownerToUpdate = session.get(Owner.class, id);
 
-        ownerToUpdate.setFullName(fullName);
-        ownerToUpdate.setIdCardNumber(idCardNumber);
-        ownerToUpdate.setPhone(phone);
-        ownerToUpdate.setEmail(email);
+            ownerToUpdate.setFullName(fullName);
+            ownerToUpdate.setIdCardNumber(idCardNumber);
+            ownerToUpdate.setPhone(phone);
+            ownerToUpdate.setEmail(email);
 
-        session.getTransaction().commit();
+            session.getTransaction().commit();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,7 +157,7 @@ public class DatabaseUtil {
 
         try {
             session.beginTransaction();
-            Owner ownerToDelete = session.get(Owner.class,deleteOwnerId);
+            Owner ownerToDelete = session.get(Owner.class, deleteOwnerId);
             session.delete(ownerToDelete);
             session.getTransaction().commit();
             System.out.println("Deleting records on all three tables succeeded!!!");
@@ -179,7 +184,7 @@ public class DatabaseUtil {
 
             session.getTransaction().commit();
 
-            for (Services s:servicesList){
+            for (Services s : servicesList) {
                 System.out.println(s);
             }
         } catch (Exception e) {
@@ -202,7 +207,7 @@ public class DatabaseUtil {
             carsList = (ArrayList<Car>) session.createQuery(queryHib).getResultList();
             session.getTransaction().commit();
 
-            for(Car c:carsList){
+            for (Car c : carsList) {
                 System.out.println(c);
             }
 

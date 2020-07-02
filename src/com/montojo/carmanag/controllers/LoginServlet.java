@@ -25,25 +25,18 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         boolean loggedIn;
-//        System.out.println("Aqui andamos, en login servlet, GET method");
         HttpSession session = req.getSession();
-        if(session.getAttribute("login") == null){
+        if (session.getAttribute("login") == null) {
             loggedIn = false;
             session.setAttribute("login", loggedIn);
-            req.setAttribute("error","Please, introduce correct username and password");
+            req.setAttribute("error", "Please, introduce correct username and password");
             RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
-            dispatcher.forward(req,resp);
+            dispatcher.forward(req, resp);
         }
-//        loggedIn = (boolean) session.getAttribute("login");
-//        System.out.println("Vuelves, pero estas loggedin: " + loggedIn);
-//        resp.setContentType("text/html");
-//        PrintWriter out = resp.getWriter();
-//        out.println("<html><body>");
-//        out.println("Hola desde LoginServlet, GET method");
 
-        req.setAttribute("error","Please, introduce correct username and password");
+        req.setAttribute("error", "Please, introduce correct username and password");
         RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
-        dispatcher.forward(req,resp);
+        dispatcher.forward(req, resp);
     }
 
     @Override
@@ -64,25 +57,21 @@ public class LoginServlet extends HttpServlet {
         username = username.trim().toLowerCase();
         password = password.trim().toLowerCase();
 
-        if(username.equals(validuser) && password.equals(validpass)){
+        if (username.equals(validuser) && password.equals(validpass)) {
             loggedIn = true;
             String fakedUsername = "LOGGED_USER";
-            session.setAttribute("login",loggedIn);
-            session.setAttribute("userName",fakedUsername);
+            session.setAttribute("login", loggedIn);
+            session.setAttribute("userName", fakedUsername);
 
-            out.println("Username is: " + username +  " <br> and Password is: " + password);
+            out.println("Username is: " + username + " <br> and Password is: " + password);
             resp.sendRedirect("/dashboard");
 
-
-//             As we're using sendRedirect, no more dispatcher is needed
-//            RequestDispatcher dispatcher = req.getRequestDispatcher("/dashboard");
-//            dispatcher.forward(req,resp);
-        }else{
+        } else {
             loggedIn = false;
             session.setAttribute("login", loggedIn);
-            req.setAttribute("error","Please, introduce correct username and password");
+            req.setAttribute("error", "Please, introduce correct username and password");
             RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
-            dispatcher.forward(req,resp);
+            dispatcher.forward(req, resp);
         }
     }
 }

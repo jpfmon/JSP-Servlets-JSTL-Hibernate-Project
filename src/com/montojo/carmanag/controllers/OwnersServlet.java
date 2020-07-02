@@ -147,7 +147,7 @@ public class OwnersServlet extends HttpServlet {
             req.setAttribute("error", message);
         }
         List<Owner> ownersList;
-        ownersList = listOwners(); //retrieve owners from database
+        ownersList = listOwners();
         req.setAttribute("ownerslist", ownersList);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/owners.jsp");
         dispatcher.forward(req, resp);

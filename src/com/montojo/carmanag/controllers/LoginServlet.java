@@ -1,5 +1,7 @@
 package com.montojo.carmanag.controllers;
 
+import com.montojo.carmanag.model.DatabaseUtil;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +16,7 @@ import java.io.PrintWriter;
 public class LoginServlet extends HttpServlet {
 
 
+
     @Override
     public void init() throws ServletException {
         System.out.println("**************************************************************");
@@ -26,6 +29,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         boolean loggedIn;
         HttpSession session = req.getSession();
+
         if (session.getAttribute("login") == null) {
             loggedIn = false;
             session.setAttribute("login", loggedIn);

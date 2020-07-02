@@ -24,7 +24,6 @@ public class DatabaseUtil {
                 .addAnnotatedClass(Owner.class)
                 .addAnnotatedClass(Services.class)
                 .buildSessionFactory();
-        ;
     }
 
     public List<Owner> getOwners() {
@@ -35,9 +34,7 @@ public class DatabaseUtil {
 
         try {
             session.beginTransaction();
-
             ownersList = session.createQuery("from Owner").getResultList();
-
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,14 +51,12 @@ public class DatabaseUtil {
         System.out.println("Getting services");
         try {
             session.beginTransaction();
-
             servicesList = session.createQuery("from Services").getResultList();
-
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-//            sessionFactory.close();
+            session.close();
         }
         return servicesList;
     }
@@ -72,11 +67,8 @@ public class DatabaseUtil {
         System.out.println("Getting cars");
         try {
             session.beginTransaction();
-
             carsList = session.createQuery("from Car").getResultList();
-
             session.getTransaction().commit();
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -90,13 +82,9 @@ public class DatabaseUtil {
         Session session = sessionFactory.getCurrentSession();
         System.out.println("Saving new owner");
         try {
-//            String sql = "insert into owner (full_name,id_card,phone,email) values (?,?,?,?)";
             session.beginTransaction();
-
             session.save(newOwner);
-
             session.getTransaction().commit();
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -111,7 +99,6 @@ public class DatabaseUtil {
         String queryHib = "from Owner o where o.id= " + ownerId;
         try {
             session.beginTransaction();
-
             retrievedOwner = (Owner) session.createQuery(queryHib).getResultList().get(0);
             session.getTransaction().commit();
 
@@ -127,19 +114,13 @@ public class DatabaseUtil {
 
         Session session = sessionFactory.getCurrentSession();
 
-//        String sql = "update  owner set full_name = ?, id_card = ?, phone = ?, email = ? where id = ?";
-
         try {
-
             session.beginTransaction();
-
             Owner ownerToUpdate = session.get(Owner.class, id);
-
             ownerToUpdate.setFullName(fullName);
             ownerToUpdate.setIdCardNumber(idCardNumber);
             ownerToUpdate.setPhone(phone);
             ownerToUpdate.setEmail(email);
-
             session.getTransaction().commit();
 
         } catch (Exception e) {
@@ -150,10 +131,6 @@ public class DatabaseUtil {
     }
 
     public void deleteOwner(int deleteOwnerId) {
-
-        String sqlServices = "delete from service where car_id in (select id from car where owner_id = ?)";
-        String sqlCars = "delete from car where owner_id = ?";
-        String sqlOwners = "delete from owner where id = ?";
 
         Session session = sessionFactory.getCurrentSession();
 
@@ -180,14 +157,8 @@ public class DatabaseUtil {
 
         try {
             session.beginTransaction();
-
             servicesList = (ArrayList<Services>) session.createQuery(query).getResultList();
-
             session.getTransaction().commit();
-
-            for (Services s : servicesList) {
-                System.out.println(s);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -206,11 +177,6 @@ public class DatabaseUtil {
             session.beginTransaction();
             carsList = (ArrayList<Car>) session.createQuery(queryHib).getResultList();
             session.getTransaction().commit();
-
-            for (Car c : carsList) {
-                System.out.println(c);
-            }
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -222,8 +188,6 @@ public class DatabaseUtil {
     public void saveNewCar(int ownerId, String brand, String model) {
 
         Session session = sessionFactory.getCurrentSession();
-
-//        String sql = "insert into car (owner_id,brand,model) values (?,?,?)";
 
         try {
             session.getTransaction().begin();
@@ -292,7 +256,7 @@ public class DatabaseUtil {
     public void saveNewService(String name, int carId, String date, String notes, float price) {
 
         Session session = sessionFactory.getCurrentSession();
-        
+
         try {
             session.getTransaction().begin();
             Car carOfService = session.get(Car.class, carId);
@@ -308,29 +272,20 @@ public class DatabaseUtil {
     }
 
     public void deleteService(int deleteServiceId) {
-        Connection connection = null;
-        PreparedStatement preparedStatementServices = null;
 
-        String sqlServices = "delete from service where id = ?";
+        Session session = sessionFactory.getCurrentSession();
+        try {
+            session.getTransaction().begin();
+            Services serviceToDelete = session.get(Services.class,deleteServiceId);
+            session.delete(serviceToDelete);
+            session.getTransaction().commit();
+            System.out.println("Deleting service succeeded!!!");
 
-//        try {
-//            connection = dataSource.getConnection();
-//            preparedStatementServices = connection.prepareStatement(sqlServices);
-//
-//            preparedStatementServices.setInt(1, deleteServiceId);
-//            preparedStatementServices.execute();
-//            System.out.println("Deleting service succeeded!!!");
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                connection.close();
-//                preparedStatementServices.close();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
     public void updateCar(int idCarToUpdate, int OwnerId, String brand, String model) {

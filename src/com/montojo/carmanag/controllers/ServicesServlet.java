@@ -78,10 +78,10 @@ public class ServicesServlet extends HttpServlet {
                         resp.sendRedirect("/services");
                         break;
                     case "deleteThis":
-//                        int deleteServiceId = Integer.parseInt(req.getParameter("serviceId"));
-//                        System.out.println("You want to delete service " + deleteServiceId);
-//                        deleteService(deleteServiceId);
-//                        resp.sendRedirect("/services");
+                        int deleteServiceId = Integer.parseInt(req.getParameter("serviceId"));
+                        System.out.println("You want to delete service " + deleteServiceId);
+                        deleteService(deleteServiceId);
+                        resp.sendRedirect("/services");
                         break;
                     case "updateThis":
                         /**

@@ -38,8 +38,8 @@
             <td>
                 Car Id:
             </td>
-            <td>${viewedService.carId}</td>
-            <td><a href="/cars?carsaction=viewCar&carId=${viewedService.carId}">Go to this car</a></td>
+            <td>${viewedService.car.id}</td>
+            <td><a href="/cars?carsaction=viewCar&carId=${viewedService.car.id}">Go to this car</a></td>
         </tr>
         <tr>
             <td>

@@ -35,49 +35,47 @@ public class ServicesServlet extends HttpServlet {
             if (serviceaction != null) {
                 switch (serviceaction) {
                     case "viewService":
-//                        int serviceId = Integer.parseInt(req.getParameter("serviceId"));
-//                        System.out.println("Id of service to view: " + serviceId);
-//                        Services viewedService = retrieveService(serviceId);
-//
-//                        req.setAttribute("viewedService", viewedService);
-//                        RequestDispatcher dispatcherViewOwner = req.getRequestDispatcher("/viewservice.jsp");
-//                        dispatcherViewOwner.forward(req, resp);
+                        int serviceId = Integer.parseInt(req.getParameter("serviceId"));
+                        System.out.println("Id of service to view: " + serviceId);
+                        Services viewedService = retrieveService(serviceId);
+
+                        req.setAttribute("viewedService", viewedService);
+                        RequestDispatcher dispatcherViewOwner = req.getRequestDispatcher("/viewservice.jsp");
+                        dispatcherViewOwner.forward(req, resp);
                         break;
                     case "newservice":
-//                        System.out.println("Send to new service form");
-//
-//                        List<Car> carsList;
-//                        carsList = databaseUtil.getCars();
-//                        req.setAttribute("carsList", carsList);
-//
-//                        RequestDispatcher dispatcherNewOwner = req.getRequestDispatcher("/newserviceform.jsp");
-//                        dispatcherNewOwner.forward(req, resp);
+                        System.out.println("Send to new service form");
+
+                        List<Car> carsList;
+                        carsList = databaseUtil.getCars();
+                        req.setAttribute("carsList", carsList);
+
+                        RequestDispatcher dispatcherNewOwner = req.getRequestDispatcher("/newserviceform.jsp");
+                        dispatcherNewOwner.forward(req, resp);
                         break;
                     case "addThis":
-//                        System.out.println("Adding this new service");
-//                        Car carId = null;
-//                        String name;
-//                        String date;
-//                        String notes;
-//                        Float price;
-//                        try {
-//                            carId = Integer.parseInt(req.getParameter("carId"));
-//                            System.out.println("parsing carId correct");
-//                            price = Float.parseFloat(req.getParameter("price"));
-//                            System.out.println("parsing price correct");
-//                        } catch (Exception e) {
-//                            System.out.println("Exception parsing in save page of new service");
-//                            resp.sendRedirect("/services?error=noSave");
-//                            break;
-//                        }
-//                        name = req.getParameter("name");
-//                        date = req.getParameter("date");
-//                        notes = req.getParameter("notes");
-//
-//                        Services newService = new Services(name, carId, date, notes, price);
-//                        System.out.println(newService.toString());
-//                        saveNewService(newService);
-//                        resp.sendRedirect("/services");
+                        System.out.println("Adding this new service");
+                        int carId;
+                        String name;
+                        String date;
+                        String notes;
+                        Float price;
+                        try {
+                            carId = Integer.parseInt(req.getParameter("carId"));
+                            System.out.println("parsing carId correct");
+                            price = Float.parseFloat(req.getParameter("price"));
+                            System.out.println("parsing price correct");
+                        } catch (Exception e) {
+                            System.out.println("Exception parsing in save page of new service");
+                            resp.sendRedirect("/services?error=noSave");
+                            break;
+                        }
+                        name = req.getParameter("name");
+                        date = req.getParameter("date");
+                        notes = req.getParameter("notes");
+
+                        saveNewService(name, carId, date, notes, price);
+                        resp.sendRedirect("/services");
                         break;
                     case "deleteThis":
 //                        int deleteServiceId = Integer.parseInt(req.getParameter("serviceId"));
@@ -103,8 +101,8 @@ public class ServicesServlet extends HttpServlet {
         databaseUtil.deleteService(deleteServiceId);
     }
 
-    private void saveNewService(Services newService) {
-        databaseUtil.saveNewService(newService);
+    private void saveNewService(String name, int carId, String date, String notes, float price) {
+        databaseUtil.saveNewService(name, carId, date, notes, price);
     }
 
     private Services retrieveService(int serviceId) {

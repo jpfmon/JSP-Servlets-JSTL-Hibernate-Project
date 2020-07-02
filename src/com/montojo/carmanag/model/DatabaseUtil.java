@@ -3,6 +3,7 @@ package com.montojo.carmanag.model;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,8 @@ public class DatabaseUtil {
                 .addAnnotatedClass(Car.class)
                 .addAnnotatedClass(Owner.class)
                 .addAnnotatedClass(Services.class)
-                .buildSessionFactory();;
+                .buildSessionFactory();
+        ;
     }
 
     public List<Owner> getOwners() {
@@ -175,7 +177,6 @@ public class DatabaseUtil {
 
         Session session = sessionFactory.getCurrentSession();
         String query = "from Services s where s.car in (from Car c where c.owner.id = " + ownerId + ")";
-//        String sql = "select * from service where car_id in (select id from car where owner_id = ?);";
 
         try {
             session.beginTransaction();
@@ -200,7 +201,6 @@ public class DatabaseUtil {
         ArrayList<Car> carsList = new ArrayList<>();
         Session session = sessionFactory.getCurrentSession();
 
-//        String sql = "select * from car where owner_id = ?";
         String queryHib = "from Car c where c.owner.id= " + ownerId;
         try {
             session.beginTransaction();
@@ -219,136 +219,92 @@ public class DatabaseUtil {
         return carsList;
     }
 
-    public void saveNewCar(Car carTemp) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-//        try {
-//            connection = dataSource.getConnection();
-//            String sql = "insert into car (owner_id,brand,model) values (?,?,?)";
-//            preparedStatement = connection.prepareStatement(sql);
-//            preparedStatement.setInt(1, carTemp.getOwner_id());
-//            preparedStatement.setString(2, carTemp.getBrand());
-//            preparedStatement.setString(3, carTemp.getModel());
-//            preparedStatement.execute();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            close(connection, preparedStatement, null);
-//        }
+    public void saveNewCar(int ownerId, String brand, String model) {
+
+        Session session = sessionFactory.getCurrentSession();
+
+//        String sql = "insert into car (owner_id,brand,model) values (?,?,?)";
+
+        try {
+            session.getTransaction().begin();
+            Owner ownerOfTheNewCar = session.get(Owner.class, ownerId);
+            Car newCar = new Car(ownerOfTheNewCar, brand, model);
+            session.save(newCar);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
     public Car getCar(int carId) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+
         Car retrievedCar = null;
-//        try {
-//            connection = dataSource.getConnection();
-//            String sql = "select * from car where id=?";
-//            preparedStatement = connection.prepareStatement(sql);
-//            preparedStatement.setInt(1, carId);
-//
-//            resultSet = preparedStatement.executeQuery();
-//
-//            if (resultSet.next()) {
-//                int id = resultSet.getInt("id");
-//                int ownerId = resultSet.getInt("owner_id");
-//                String brand = resultSet.getString("brand");
-//                String model = resultSet.getString("model");
-//                System.out.println("Retrieved Car. Id: " + id + " Owner id: " + ownerId + " Brand: " + brand + " Model: " + model);
-//                retrievedCar = new Car(id, ownerId, brand, model);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            close(connection, preparedStatement, resultSet);
-//        }
+        Session session = sessionFactory.getCurrentSession();
+
+        try {
+            session.getTransaction().begin();
+            retrievedCar = session.get(Car.class, carId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
         return retrievedCar;
     }
 
     public void deleteCar(int deleteCarId) {
-        Connection connection = null;
-        PreparedStatement preparedStatementServices = null;
-        PreparedStatement preparedStatementCars = null;
 
-        String sqlServices = "delete from service where car_id = ?";
-        String sqlCars = "delete from car where id = ?";
+        Session session = sessionFactory.getCurrentSession();
 
-//        try {
-//            connection = dataSource.getConnection();
-//            preparedStatementServices = connection.prepareStatement(sqlServices);
-//            preparedStatementCars = connection.prepareStatement(sqlCars);
-//
-//            preparedStatementServices.setInt(1, deleteCarId);
-//            preparedStatementCars.setInt(1, deleteCarId);
-//
-//            preparedStatementServices.execute();
-//            preparedStatementCars.execute();
-//
-//            System.out.println("Deleting records on all two tables succeeded!!!");
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                connection.close();
-//                preparedStatementServices.close();
-//                preparedStatementCars.close();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
+        try {
+            session.getTransaction().begin();
+            Car carToDelete = session.get(Car.class, deleteCarId);
+            session.delete(carToDelete);
+            session.getTransaction().commit();
+            System.out.println("Deleting records on all two tables succeeded!!!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
     public Services getService(int serviceId) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+
         Services retrievedService = null;
-//        try {
-//            connection = dataSource.getConnection();
-//            String sql = "select * from service where id=?";
-//            preparedStatement = connection.prepareStatement(sql);
-//            preparedStatement.setInt(1, serviceId);
-//
-//            resultSet = preparedStatement.executeQuery();
-//
-//            if (resultSet.next()) {
-//                int id = resultSet.getInt("id");
-//                String name = resultSet.getString("name");
-//                String date = resultSet.getString("date");
-//                int carId = resultSet.getInt("car_id");
-//                String notes = resultSet.getString("notes");
-//                Float price = resultSet.getFloat("price");
-//                retrievedService = new Services(id, name, carId, date, notes, price);
-//                System.out.println(retrievedService.toString());
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            close(connection, preparedStatement, resultSet);
-//        }
+
+        Session session = sessionFactory.getCurrentSession();
+
+        try {
+            session.getTransaction().begin();
+            retrievedService = session.get(Services.class, serviceId);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
         return retrievedService;
     }
 
-    public void saveNewService(Services newService) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-//        try {
-//            connection = dataSource.getConnection();
-//            String sql = "insert into service (name,date,car_id,notes,price) values (?,?,?,?,?)";
-//            preparedStatement = connection.prepareStatement(sql);
-//            preparedStatement.setString(1, newService.getName());
-//            preparedStatement.setString(2, newService.getDate());
-//            preparedStatement.setInt(3, newService.getCarId());
-//            preparedStatement.setString(4, newService.getNotes());
-//            preparedStatement.setFloat(5, newService.getPrice());
-//            preparedStatement.execute();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            close(connection, preparedStatement, null);
-//        }
+    public void saveNewService(String name, int carId, String date, String notes, float price) {
+
+        Session session = sessionFactory.getCurrentSession();
+        
+        try {
+            session.getTransaction().begin();
+            Car carOfService = session.get(Car.class, carId);
+            Services newService = new Services(name, carOfService, date, notes, price);
+            session.save(newService);
+            session.getTransaction().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
     public void deleteService(int deleteServiceId) {
@@ -377,26 +333,23 @@ public class DatabaseUtil {
 //        }
     }
 
-    public void updateCar(Car updatedCar) {
+    public void updateCar(int idCarToUpdate, int OwnerId, String brand, String model) {
 
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        Session session = sessionFactory.getCurrentSession();
 
-//        try {
-//            connection = dataSource.getConnection();
-//            String sql = "update  car set owner_id = ?, brand = ?, model = ? where id = ?";
-//            preparedStatement = connection.prepareStatement(sql);
-//            preparedStatement.setInt(1, updatedCar.getOwner_id());
-//            preparedStatement.setString(2, updatedCar.getBrand());
-//            preparedStatement.setString(3, updatedCar.getModel());
-//            preparedStatement.setInt(4, updatedCar.getId());
-//
-//            preparedStatement.execute();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            close(connection, preparedStatement, null);
-//        }
+        try {
+            session.getTransaction().begin();
+
+            Car carToUpdate = session.get(Car.class, idCarToUpdate);
+            carToUpdate.setBrand(brand);
+            carToUpdate.setModel(model);
+
+            session.getTransaction().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 }

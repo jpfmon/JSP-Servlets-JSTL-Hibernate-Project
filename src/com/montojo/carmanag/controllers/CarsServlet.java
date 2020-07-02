@@ -36,68 +36,68 @@ public class CarsServlet extends HttpServlet {
             if (carsaction != null) {
                 switch (carsaction) {
                     case "newcar":
-//                        List<Owner> ownerList;
-//                        ownerList = databaseUtil.getOwners();
-//                        req.setAttribute("ownersList", ownerList);
-//                        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/newcarform.jsp");
-//                        requestDispatcher.forward(req, resp);
+                        List<Owner> ownerList;
+                        ownerList = databaseUtil.getOwners();
+                        req.setAttribute("ownersList", ownerList);
+                        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/newcarform.jsp");
+                        requestDispatcher.forward(req, resp);
                         break;
                     case "addthis":
-//                        System.out.println("Adding this new car");
-//                        int ownerId = 0;
-//                        String brand;
-//                        String model;
-//                        try {
-//                            ownerId = Integer.parseInt(req.getParameter("ownerId"));
-//                        } catch (Exception e) {
-//                            System.out.println("Beautiful exception parsing in save page of new car");
-//                            resp.sendRedirect("/cars?error=noSave");
-//                            break;
-//                        }
-//                        brand = req.getParameter("brand");
-//                        model = req.getParameter("model");
-//
-//                        System.out.println("New car. Owner id: " + ownerId + " | Brand: " + brand + " | Model: " + model);
-//                        Car carTemp = new Car(ownerId, brand, model);
-//                        saveNewCar(carTemp);
-//                        resp.sendRedirect("/cars");
+                        System.out.println("Adding this new car");
+                        int ownerId = 0;
+                        String brand;
+                        String model;
+                        try {
+                            ownerId = Integer.parseInt(req.getParameter("ownerId"));
+                        } catch (Exception e) {
+                            System.out.println("Beautiful exception parsing in save page of new car");
+                            resp.sendRedirect("/cars?error=noSave");
+                            break;
+                        }
+                        brand = req.getParameter("brand");
+                        model = req.getParameter("model");
+
+                        System.out.println("New car. Owner id: " + ownerId + " | Brand: " + brand + " | Model: " + model);
+
+                        saveNewCar(ownerId,brand,model);
+                        resp.sendRedirect("/cars");
                         break;
                     case "viewCar":
-//                        int carId = Integer.parseInt(req.getParameter("carId"));
-//                        System.out.println("Id of car to view: " + carId);
-//                        Car viewedCar = retrieveCar(carId);
-//
-//                        req.setAttribute("viewedCar", viewedCar);
-//                        RequestDispatcher dispatcherViewOwner = req.getRequestDispatcher("/viewcar.jsp");
-//                        dispatcherViewOwner.forward(req, resp);
+                        int carId = Integer.parseInt(req.getParameter("carId"));
+                        System.out.println("Id of car to view: " + carId);
+                        Car viewedCar = retrieveCar(carId);
+
+                        req.setAttribute("viewedCar", viewedCar);
+                        RequestDispatcher dispatcherViewOwner = req.getRequestDispatcher("/viewcar.jsp");
+                        dispatcherViewOwner.forward(req, resp);
                         break;
                     case "deleteThis":
-//                        int deleteCarId = Integer.parseInt(req.getParameter("carId"));
-//                        System.out.println("You want to delete car " + deleteCarId);
-//                        deleteCar(deleteCarId);
-//                        resp.sendRedirect("/cars");
+                        int deleteCarId = Integer.parseInt(req.getParameter("carId"));
+                        System.out.println("You want to delete car " + deleteCarId);
+                        deleteCar(deleteCarId);
+                        resp.sendRedirect("/cars");
                         break;
                     case "updateThis":
                         /**
                          * Logic to update the record
                          */
-//                        System.out.println("Request to update this car");
-//                        int updatedCarId = 0;
-//                        int updatedOwnerId = 0;
-//                        String updateCarBrand = req.getParameter("brand");
-//                        String updateCarModel = req.getParameter("model");
-//                        try {
-//                            updatedCarId = Integer.parseInt(req.getParameter("carId"));
-//                            updatedOwnerId = Integer.parseInt(req.getParameter("ownerId"));
-//                        }catch (Exception e){
-//                            System.out.println("Exception parsing in car update page");
-//                            resp.sendRedirect("/owners?error=noUpdate");
-//                            break;
-//                        }
-//
-//                        Car updatedCar = new Car(updatedCarId,updatedOwnerId,updateCarBrand,updateCarModel);
-//                        updateCar(updatedCar);
-//                        resp.sendRedirect("/cars");
+                        System.out.println("Request to update this car");
+                        int updatedCarId = 0;
+                        int updatedOwnerId = 0;
+                        String updateCarBrand = req.getParameter("brand");
+                        String updateCarModel = req.getParameter("model");
+                        try {
+                            updatedCarId = Integer.parseInt(req.getParameter("carId"));
+                            updatedOwnerId = Integer.parseInt(req.getParameter("ownerId"));
+                        }catch (Exception e){
+                            System.out.println("Exception parsing in car update page");
+                            resp.sendRedirect("/owners?error=noUpdate");
+                            break;
+                        }
+
+
+                        updateCar(updatedCarId,updatedOwnerId,updateCarBrand,updateCarModel);
+                        resp.sendRedirect("/cars");
                         break;
                     default:
                         showMainContent(req, resp);
@@ -108,8 +108,8 @@ public class CarsServlet extends HttpServlet {
         }
     }
 
-    private void updateCar(Car updatedCar) {
-        databaseUtil.updateCar(updatedCar);
+    private void updateCar(int updatedCarId,int updatedCarOwner, String brand, String model) {
+        databaseUtil.updateCar(updatedCarId,updatedCarOwner,brand,model);
     }
 
     private void deleteCar(int deleteCarId) {
@@ -120,8 +120,8 @@ public class CarsServlet extends HttpServlet {
         return databaseUtil.getCar(carId);
     }
 
-    private void saveNewCar(Car carTemp) {
-        databaseUtil.saveNewCar(carTemp);
+    private void saveNewCar(int ownerId,String brand,String model) {
+        databaseUtil.saveNewCar(ownerId,brand,model);
     }
 
     private void showMainContent(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

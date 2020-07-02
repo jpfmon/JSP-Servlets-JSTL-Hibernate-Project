@@ -26,8 +26,8 @@
             <td>
                 Owner:
             </td>
-            <td>${viewedCar.owner_id}</td>
-            <td><a href="/owners?ownersaction=viewOwner&ownerId=${viewedCar.owner_id}">Go to this owner</a></td>
+            <td>${viewedCar.owner.id}</td>
+            <td><a href="/owners?ownersaction=viewOwner&ownerId=${viewedCar.owner.id}">Go to this owner</a></td>
         </tr>
         <tr>
             <td>
@@ -49,7 +49,7 @@
         </tr>
         <tr>
     <td>
-        <button onclick="location.href = '/cars';">Return</button>
+        <button onclick="location.href = '/cars';">Return to cars list</button>
     </td>
     </tr>
     </tbody>

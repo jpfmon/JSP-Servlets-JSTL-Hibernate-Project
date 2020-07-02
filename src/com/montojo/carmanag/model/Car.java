@@ -31,6 +31,12 @@ public class Car {
     public Car() {
     }
 
+    public Car(Owner owner,String brand, String model){
+        this.owner = owner;
+        this.brand = brand;
+        this.model = model;
+    }
+
     public int getId() {
         return id;
     }

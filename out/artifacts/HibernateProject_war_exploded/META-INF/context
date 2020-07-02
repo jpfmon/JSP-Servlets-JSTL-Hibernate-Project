@@ -1,0 +1,10 @@
+WHEN USING TOMCAT WITH HIBERNATE, NO NEED TO CONFIGURE CONNECTION POOLING WITH TOMCAT: https://developer.jboss.org/docs/DOC-14022
+<!--<Context>-->
+
+<!--  <Resource name="jdbc/car_manag"-->
+<!--  			auth="Container" type="javax.sql.DataSource"-->
+<!--               maxActive="20" maxIdle="5" maxWait="10000"-->
+<!--               username="root" password="root"-->
+<!--               driverClassName="com.mysql.cj.jdbc.Driver"-->
+<!--            url="jdbc:mysql://localhost:3306/car_manag?AllowPublicKeyRetrieval=True?useSSL=false&amp;serverTimezone=UTC"/>-->
+<!--</Context>-->

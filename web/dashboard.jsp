@@ -170,6 +170,7 @@
 </div>
 <br>
 <hr>
+<h4>Import from file</h4>
 <form action="upload" method="post" enctype="multipart/form-data" onsubmit="return Validate(this);">
     <input type="text" name="description" />
     <input type="file" name="file" accept=".csv" />

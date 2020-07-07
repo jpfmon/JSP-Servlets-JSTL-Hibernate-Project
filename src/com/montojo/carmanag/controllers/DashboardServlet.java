@@ -21,6 +21,7 @@ public class DashboardServlet extends HttpServlet {
         System.out.println("Init DashboardServlet");
         super.init();
         databaseUtil = new DatabaseUtil();
+
     }
 
     @Override
@@ -97,4 +98,6 @@ public class DashboardServlet extends HttpServlet {
         HttpSession session = req.getSession();
         System.out.println("This is Session: " + session.getId());
     }
+
+
 }

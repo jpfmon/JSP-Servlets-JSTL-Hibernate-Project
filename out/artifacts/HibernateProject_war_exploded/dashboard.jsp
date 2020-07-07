@@ -54,6 +54,35 @@
             color: black;
         }
     </style>
+    <script>
+        var _validFileExtensions = [".csv"];
+        function Validate(oForm) {
+            var arrInputs = oForm.getElementsByTagName("input");
+            for (var i = 0; i < arrInputs.length; i++) {
+                var oInput = arrInputs[i];
+                if (oInput.type == "file") {
+                    var sFileName = oInput.value;
+                    if (sFileName.length > 0) {
+                        var blnValid = false;
+                        for (var j = 0; j < _validFileExtensions.length; j++) {
+                            var sCurExtension = _validFileExtensions[j];
+                            if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                                blnValid = true;
+                                break;
+                            }
+                        }
+                        if (!blnValid) {
+                            alert("Sorry, " + sFileName + " is invalid, " +
+                                "allowed file type: " + _validFileExtensions.join(", "));
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+    </script>
 </head>
 <body>
 <%--Estas log in?: ${sessionScope.login}--%>
@@ -140,6 +169,12 @@
     </div>
 </div>
 <br>
+<hr>
+<form action="upload" method="post" enctype="multipart/form-data" onsubmit="return Validate(this);">
+    <input type="text" name="description" />
+    <input type="file" name="file" accept=".csv" />
+    <input type="submit" />
+</form>
 <hr>
 <form action="/logout">
     <input type="submit" value="Log Out"/>

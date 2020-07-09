@@ -30,7 +30,7 @@ public class DatabaseUtil {
         List<Owner> ownersList = new ArrayList<>();
 
         Session session = sessionFactory.getCurrentSession();
-        System.out.println("Getting owners");
+//        System.out.println("Getting owners");
 
         try {
             session.beginTransaction();
@@ -48,7 +48,7 @@ public class DatabaseUtil {
     public List<Services> getServices() {
         List<Services> servicesList = new ArrayList<>();
         Session session = sessionFactory.getCurrentSession();
-        System.out.println("Getting services");
+//        System.out.println("Getting services");
         try {
             session.beginTransaction();
             servicesList = session.createQuery("from Services").getResultList();
@@ -64,7 +64,7 @@ public class DatabaseUtil {
     public List<Car> getCars() {
         List<Car> carsList = new ArrayList<>();
         Session session = sessionFactory.getCurrentSession();
-        System.out.println("Getting cars");
+//        System.out.println("Getting cars");
         try {
             session.beginTransaction();
             carsList = session.createQuery("from Car").getResultList();
@@ -80,7 +80,7 @@ public class DatabaseUtil {
 
     public void saveNewOwner(Owner newOwner) {
         Session session = sessionFactory.getCurrentSession();
-        System.out.println("Saving new owner");
+//        System.out.println("Saving new owner");
         try {
             session.beginTransaction();
             session.save(newOwner);

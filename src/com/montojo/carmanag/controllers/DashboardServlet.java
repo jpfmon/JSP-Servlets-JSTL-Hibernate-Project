@@ -18,7 +18,7 @@ public class DashboardServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        System.out.println("Init DashboardServlet");
+//        System.out.println("Init DashboardServlet");
         super.init();
         databaseUtil = new DatabaseUtil();
 
@@ -88,6 +88,9 @@ public class DashboardServlet extends HttpServlet {
         session.setAttribute("databaseutil", databaseUtil);
         Boolean loggedIn = (Boolean) session.getAttribute("login");
 
+        if (databaseUtil == null || loggedIn == null || !loggedIn) {
+            return false;
+        }
         if (loggedIn == null) {
             return false;
         }
@@ -96,7 +99,7 @@ public class DashboardServlet extends HttpServlet {
 
     private void gettingSession(HttpServletRequest req, HttpServletResponse res) {
         HttpSession session = req.getSession();
-        System.out.println("This is Session: " + session.getId());
+//        System.out.println("This is Session: " + session.getId());
     }
 
 

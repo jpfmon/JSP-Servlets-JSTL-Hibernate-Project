@@ -19,9 +19,9 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        System.out.println("**************************************************************");
-        System.out.println("Init of LoginServlet");
-        System.out.println("**************************************************************");
+//        System.out.println("**************************************************************");
+//        System.out.println("Init of LoginServlet");
+//        System.out.println("**************************************************************");
         super.init();
     }
 

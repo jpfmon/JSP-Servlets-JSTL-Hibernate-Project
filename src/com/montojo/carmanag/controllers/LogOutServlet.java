@@ -24,14 +24,14 @@ public class LogOutServlet extends HttpServlet {
             dispatcher.forward(req,resp);
         }
         loggedIn = (boolean) session.getAttribute("login");
-        System.out.println("login session variable in /logout doGet method: " + loggedIn);
+//        System.out.println("login session variable in /logout doGet method: " + loggedIn);
 
         loggedIn = false;
         session.removeAttribute("login");
         session.setAttribute("login",loggedIn);
-        System.out.println("You're logged out!! Session finished: " + req.getSession().getId());
+//        System.out.println("You're logged out!! Session finished: " + req.getSession().getId());
         String newSession = req.changeSessionId();
-        System.out.println("New session after loggin out: " + newSession);
+//        System.out.println("New session after loggin out: " + newSession);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
         dispatcher.forward(req,resp);
     }

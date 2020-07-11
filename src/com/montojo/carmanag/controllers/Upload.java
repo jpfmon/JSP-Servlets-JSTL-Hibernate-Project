@@ -34,6 +34,8 @@ public class Upload extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String selection = request.getParameter("import");
+        System.out.println("This is the selection of radio buttons: " + selection);
         System.out.println("Estamos aqui");
         if (checkLog(request)) {
             String description = request.getParameter("description"); // Retrieves <input type="text" name="description">
@@ -54,17 +56,14 @@ public class Upload extends HttpServlet {
                 content.add(line);
             }
 
-            String command = content.get(1).split(";")[0];
-            System.out.println(command);
-
-            switch (command) {
-                case "1":
+            switch (selection) {
+                case "owners":
                     importOwners(content);
                     break;
-                case "2":
+                case "cars":
                     importCars(content);
                     break;
-                case "3":
+                case "services":
                     importServices(content);
                     break;
                 default:
@@ -80,7 +79,7 @@ public class Upload extends HttpServlet {
 
     private void importOwners(List<String> content) {
 
-        for (int i = 2; i < content.size(); i++) {
+        for (int i = 1; i < content.size(); i++) {
             String fullName;
             String idCardNumber;
             String phone;
@@ -92,23 +91,23 @@ public class Upload extends HttpServlet {
 
             System.out.println("Length: " + lineArrayLength);
             switch (lineArrayLength) {
+                case 1:
+                    fullName = lineArray[0];
+                    break;
                 case 2:
-                    fullName = lineArray[1];
+                    fullName = lineArray[0];
+                    idCardNumber = lineArray[1];
                     break;
                 case 3:
-                    fullName = lineArray[1];
-                    idCardNumber = lineArray[2];
+                    fullName = lineArray[0];
+                    idCardNumber = lineArray[1];
+                    phone = lineArray[2];
                     break;
                 case 4:
-                    fullName = lineArray[1];
-                    idCardNumber = lineArray[2];
-                    phone = lineArray[3];
-                    break;
-                case 5:
-                    fullName = lineArray[1];
-                    idCardNumber = lineArray[2];
-                    phone = lineArray[3];
-                    email = lineArray[4];
+                    fullName = lineArray[0];
+                    idCardNumber = lineArray[1];
+                    phone = lineArray[2];
+                    email = lineArray[3];
 
                     System.out.println("Data readed from file: " + fullName + " | " + idCardNumber + " | " + phone + " | " + email);
                     Owner newOwner;

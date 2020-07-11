@@ -178,7 +178,8 @@
     <input type="radio" name="import" value="cars">Cars<br>
     <input type="radio" name="import" value="services">Services<br>
     <input type="file" name="file" accept=".csv" />
-    <input type="submit" />
+    <br><br>
+    <input type="submit" value="Confirm import"/>
 </form>
 <hr>
 <form action="/logout">

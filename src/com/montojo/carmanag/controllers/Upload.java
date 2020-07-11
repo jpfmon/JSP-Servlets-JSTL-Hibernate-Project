@@ -37,7 +37,7 @@ public class Upload extends HttpServlet {
         String selection = request.getParameter("import");
         System.out.println("This is the selection of radio buttons: " + selection);
         System.out.println("Estamos aqui");
-        if (checkLog(request)) {
+        if (checkLog(request) && selection !=null) {
             String description = request.getParameter("description"); // Retrieves <input type="text" name="description">
             Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix.

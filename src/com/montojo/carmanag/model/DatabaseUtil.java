@@ -103,7 +103,7 @@ public class DatabaseUtil {
             session.getTransaction().commit();
 
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         } finally {
             session.close();
         }

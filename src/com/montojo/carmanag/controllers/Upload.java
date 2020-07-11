@@ -142,7 +142,63 @@ public class Upload extends HttpServlet {
     }
 
     private void importCars(List<String> content) {
+
+        for (int i = 1; i < content.size(); i++) {
+
+            String ownerId;
+            String brand;
+            String model;
+            System.out.println("Importing car from this line: " + content.get(i));
+
+            String[] lineArray = content.get(i).split(";");
+            int lineArrayLength = lineArray.length;
+
+            System.out.println("Length: " + lineArrayLength);
+            switch (lineArrayLength) {
+                case 3:
+                    ownerId = lineArray[0];
+                    brand = lineArray[1];
+                    model = lineArray[2];
+
+                    System.out.println("Data read from file: " + ownerId + " | " + brand + " | " + model);
+                    Car newCar;
+                    Owner owner = null;
+                    try {
+                        owner = databaseUtil.getOwner(Integer.parseInt(ownerId));
+                    } catch (Exception e) {
+                        System.out.println("Owner doesn't exist!!! (first warning)");
+//                        e.printStackTrace();
+                    }
+                    if (owner == null) {
+                        System.out.println("Owner doesn't exist!!! (second warning)");
+                        break;
+                    } else {
+                        newCar = new Car(owner, brand, model);
+//                            CHECK IF CAR ALREADY EXISTS
+                        if (!checkExistingCar(newCar)) {
+                            System.out.println("Saving new Car");
+                            databaseUtil.saveNewCar(Integer.parseInt(ownerId), brand, model);
+                        } else {
+                            System.out.println("Car already exists!!!");
+                        }
+                    }
+                    break;
+                default:
+            }
+        }
     }
+
+    private boolean checkExistingCar(Car newCar) {
+        List<Car> cars = databaseUtil.getCars();
+        boolean carExists = false;
+        for (Car c : cars) {
+            if (c.getModel().toLowerCase().equals(newCar.getModel().toLowerCase()) && c.getBrand().toLowerCase().equals(newCar.getBrand().toLowerCase())) {
+                carExists = true;
+            }
+        }
+        return carExists;
+    }
+
 
     private void importServices(List<String> content) {
     }

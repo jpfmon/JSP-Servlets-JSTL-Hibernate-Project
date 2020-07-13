@@ -174,9 +174,9 @@
 <form action="upload" method="post" enctype="multipart/form-data" onsubmit="return Validate(this);">
 <%--    <input type="text" name="description" />--%>
     Select what you want to import:<br>
-    <input type="radio" name="import" value="owners">Owners<br>
-    <input type="radio" name="import" value="cars">Cars<br>
-    <input type="radio" name="import" value="services">Services<br>
+    <input type="radio" name="import" value="owners"/>Owners<br>
+    <input type="radio" name="import" value="cars"/>Cars<br>
+    <input type="radio" name="import" value="services"/>Services<br>
     <input type="file" name="file" accept=".csv" />
     <br><br>
     <input type="submit" value="Confirm import"/>

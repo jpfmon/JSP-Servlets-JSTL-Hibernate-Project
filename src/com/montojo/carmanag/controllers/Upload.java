@@ -174,7 +174,7 @@ public class Upload extends HttpServlet {
                         break;
                     } else {
                         newCar = new Car(owner, brand, model);
-//                            CHECK IF CAR ALREADY EXISTS
+
                         if (!checkExistingCar(newCar)) {
                             System.out.println("Saving new Car");
                             databaseUtil.saveNewCar(Integer.parseInt(ownerId), brand, model);

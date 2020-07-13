@@ -154,6 +154,7 @@ public class DatabaseUtil {
 
         Session session = sessionFactory.getCurrentSession();
         String query = "from Services s where s.car in (from Car c where c.owner.id = " + ownerId + ")";
+        
 
         try {
             session.beginTransaction();

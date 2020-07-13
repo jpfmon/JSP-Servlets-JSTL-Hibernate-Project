@@ -25,7 +25,7 @@ public class Car {
     @Column(name = "model")
     private String model;
 
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "car", cascade = CascadeType.ALL)
     private List<Services> services;
 
     public Car() {

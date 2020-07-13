@@ -73,7 +73,8 @@
                 <td>${cartemp.id}</td>
                 <td>${cartemp.brand}</td>
                 <td>${cartemp.model}</td>
-
+<%--When using Eager Fetch, can be like this: --%>
+<%--                <c:forEach var="servtemp" items="${cartemp.services}">--%>
                 <c:forEach var="servtemp" items="${servicesList}">
                     <c:if test="${servtemp.car.id == cartemp.id}">
                         <c:url var="tempLinkSer" value="/services">

@@ -67,6 +67,8 @@ public class OwnersServlet extends HttpServlet {
                         System.out.println("Id of owner to view: " + ownerId);
                         Owner viewOwner = retrieveOwner(ownerId);
                         ArrayList<Car> carsList = retrieveOwnerCars(ownerId);
+//                        if fetch type is eager for services property in Car class, no need to retrieve Services as a separate list.
+//                        I'm doing it here as fetch type lazy.
                         ArrayList<Services> servicesList = retrieveOwnerServices(ownerId);
 
                         req.setAttribute("viewOwner", viewOwner);

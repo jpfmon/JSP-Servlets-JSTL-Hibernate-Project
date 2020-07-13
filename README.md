@@ -1,4 +1,4 @@
-This project is basically the same as JSP-Servlets-JSTL-Project, but instead of JDBC connection, I use Hibernate framwork. 
+This project is basically the same as JSP-Servlets-JSTL-Project, but instead of JDBC connection, I use Hibernate framework. 
 JSP, Servlets and JSTL are used as well.
 Hibernate is configured with hibernate.cfg.xml file and connection pool is set there, not through Tomcat configuraions. 
 Entities are declared and mapping is done using annotations. 

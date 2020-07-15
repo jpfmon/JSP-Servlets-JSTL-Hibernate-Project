@@ -1,6 +1,4 @@
-package com.montojo.carmanag.controllers;
-
-import com.montojo.carmanag.model.DatabaseUtil;
+package com.montojo.carmanag.servlets;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

@@ -1,4 +1,4 @@
-package com.montojo.carmanag.controllers;
+package com.montojo.carmanag.servlets;
 
 import com.montojo.carmanag.model.Car;
 import com.montojo.carmanag.model.DatabaseUtil;

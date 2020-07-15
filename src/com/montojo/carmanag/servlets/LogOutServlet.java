@@ -1,4 +1,4 @@
-package com.montojo.carmanag.controllers;
+package com.montojo.carmanag.servlets;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
